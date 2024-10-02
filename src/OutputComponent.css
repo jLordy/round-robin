@@ -1,0 +1,20 @@
+.output-container {
+    width: fit-content;
+    margin: 0 auto;
+    font-size: 14px; /* Reduce the font size */
+    background-color: rgb(255, 255, 255);
+    padding: 24px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    color: black;
+    margin-right: 20px;
+  }
+  p{
+    color: black;
+  }
+
+  h1{
+    text-align: left;
+  }
+  

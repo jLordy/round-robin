@@ -1,0 +1,10 @@
+.parent-container{
+
+}
+.component-container{
+    display: flex;
+    background-color: rgb(255, 255, 255);
+    gap: 10px;
+    width: fit-content;
+}
+
