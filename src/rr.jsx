@@ -1,18 +1,11 @@
 const rr = ({ arrivalTime, burstTime, timeQuantum }) => {
   const processesInfo = arrivalTime
-    .map((item, index) => {
-      const job =
-        arrivalTime.length > 26
-          ? `P${index + 1}`
-          : (index + 10).toString(36).toUpperCase();
-
-      return {
-        job,
-        at: item,
-        bt: burstTime[index],
-      };
-    })
-    .sort((obj1, obj2) => obj1.at - obj2.at); // Sort by arrival time
+    .map((item, index) => ({
+      job: `P${index + 1}`,
+      at: item,
+      bt: burstTime[index],
+    }))
+    .sort((obj1, obj2) => obj1.at - obj2.at);
 
   const solvedProcessesInfo = [];
   const ganttChartInfo = [];
@@ -33,14 +26,21 @@ const rr = ({ arrivalTime, burstTime, timeQuantum }) => {
     unfinishedJobs.length > 0
   ) {
     if (readyQueue.length === 0 && unfinishedJobs.length > 0) {
-      // Previously idle
+      const idleTime = unfinishedJobs[0].at - currentTime;
+      if (idleTime > 0) {
+        ganttChartInfo.push({
+          job: 'Idle',
+          start: currentTime,
+          stop: unfinishedJobs[0].at,
+          duration: idleTime
+        });
+      }
       readyQueue.push(unfinishedJobs[0]);
       currentTime = readyQueue[0].at;
     }
 
     const processToExecute = readyQueue[0];
 
-    // Determine the time to execute
     const executionTime = Math.min(remainingTime[processToExecute.job], timeQuantum);
     remainingTime[processToExecute.job] -= executionTime;
     const prevCurrentTime = currentTime;
@@ -50,34 +50,22 @@ const rr = ({ arrivalTime, burstTime, timeQuantum }) => {
       job: processToExecute.job,
       start: prevCurrentTime,
       stop: currentTime,
+      duration: executionTime
     });
 
-    const processToArriveInThisCycle = processesInfo.filter((p) => {
-      return (
-        p.at <= currentTime &&
-        p !== processToExecute &&
-        !readyQueue.includes(p) &&
-        unfinishedJobs.includes(p)
-      );
-    });
+    const processToArriveInThisCycle = processesInfo.filter((p) => 
+      p.at <= currentTime &&
+      p !== processToExecute &&
+      !readyQueue.includes(p) &&
+      unfinishedJobs.includes(p)
+    );
 
-    // Push new processes to readyQueue
     readyQueue.push(...processToArriveInThisCycle);
-
-    // Requeueing (move head/first item to tail/last)
     readyQueue.push(readyQueue.shift());
 
-    // When the process finishes executing
     if (remainingTime[processToExecute.job] === 0) {
-      const indexToRemoveUJ = unfinishedJobs.indexOf(processToExecute);
-      if (indexToRemoveUJ > -1) {
-        unfinishedJobs.splice(indexToRemoveUJ, 1);
-      }
-      const indexToRemoveRQ = readyQueue.indexOf(processToExecute);
-      if (indexToRemoveRQ > -1) {
-        readyQueue.splice(indexToRemoveRQ, 1);
-      }
-
+      unfinishedJobs.splice(unfinishedJobs.indexOf(processToExecute), 1);
+      readyQueue.splice(readyQueue.indexOf(processToExecute), 1);
       solvedProcessesInfo.push({
         ...processToExecute,
         ft: currentTime,
@@ -87,16 +75,12 @@ const rr = ({ arrivalTime, burstTime, timeQuantum }) => {
     }
   }
 
-  // Sort the solved processes by arrival time and then by job name
   solvedProcessesInfo.sort((obj1, obj2) => {
-    if (obj1.at > obj2.at) return 1;
-    if (obj1.at < obj2.at) return -1;
-    if (obj1.job > obj2.job) return 1;
-    if (obj1.job < obj2.job) return -1;
-    return 0;
+    if (obj1.at !== obj2.at) return obj1.at - obj2.at;
+    return obj1.job.localeCompare(obj2.job);
   });
 
-  return { solvedProcessesInfo, ganttChartInfo }; // Return the results
+  return { solvedProcessesInfo, ganttChartInfo };
 };
 
 export default rr;
