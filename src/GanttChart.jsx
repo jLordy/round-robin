@@ -1,91 +1,88 @@
-import { useLayoutEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
+// GanttChart.jsx
+import React, { useLayoutEffect, useRef, useState, useEffect } from "react";
+import styled, { keyframes } from "styled-components";
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 2rem;
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 40px;
 `;
 
-const Title = styled.h2`
-  font-weight: 600;
-  font-size: 18px;
-
-  margin: 0 0 0.5rem 0;
-  color: #424242;
-`;
-
-const JobContainer = styled.div`
+const ChartContainer = styled.div`
   display: flex;
+  width: 100%;
+  position: relative;
+  height: 80px;  // Increased height
 `;
 
-const Job = styled.div`
-  width: 40px;
-  height: 35px;
-  border: 1px solid #8da6ff;
-  background-color: #edf4ff;
-  color: #424242;
-  text-align: center;
-  align-content: center;
-
-  &:not(:last-child) {
-    margin-right: -1px;
-  }
-`;
-
-const TimeContainer = styled.div`
-  display: flex;
-`;
-
-const Time = styled.div`
-  width: 40px;
-  height: 20px;
-
-  border: 1px solid #fff;
-  color: #444e5c;
-
-  &:not(:last-child) {
-    margin-right: -1px;
-  }
-`;
-
-const MultilineContainer = styled.div`
+const BarContainer = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: stretch;
+`;
+
+const Bar = styled.div`
+  height: 80px;  // Increased height
+  display: flex;
   justify-content: center;
   align-items: center;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;  // Increased font size
+`;
 
-  &:not(:last-child) {
-    margin-bottom: 1rem;
+const TimeLabel = styled.div`
+  font-size: 14px;  // Increased font size
+  position: absolute;
+  bottom: -25px;
+  transform: translateX(-50%);
+`;
+
+const growAnimation = keyframes`
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
   }
 `;
 
+const fadeInAnimation = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
+const AnimatedBar = styled(Bar)`
+  width: 0;
+  animation: ${growAnimation} forwards;
+`;
+
+const AnimatedTimeLabel = styled(TimeLabel)`
+  opacity: 0;
+  animation: ${fadeInAnimation} 0.5s forwards;
+`;
+const getColor = (job) => {
+  const colors = [
+    "#FF6B6B", "#4ECDC4", "#45B7D1", "#FFA07A", "#98D8C8",
+    "#F06292", "#AED581", "#7986CB", "#4DB6AC", "#FFD54F"
+  ];
+  const index = parseInt(job.slice(1)) - 1;
+  return colors[index % colors.length];
+};
 
 const GanttChart = ({ ganttChartInfo }) => {
+  const [containerWidth, setContainerWidth] = useState(0);
+  const [currentAnimatingIndex, setCurrentAnimatingIndex] = useState(0);
   const containerEl = useRef(null);
-  const [windowWidth, setWindowWidth] = useState(null);
-  const [containerWidth, setContainerWidth] = useState(null);
-
-  const job = [];
-  const time = [];
-  ganttChartInfo.forEach((item, index) => {
-    if (index === 0) {
-      job.push(item.job);
-      time.push(item.start, item.stop);
-    } else if (time.slice(-1)[0] === item.start) {
-      job.push(item.job);
-      time.push(item.stop);
-    } else if (time.slice(-1)[0] !== item.start) {
-      job.push('_', item.job);
-      time.push(item.start, item.stop);
-    }
-  });
 
   useLayoutEffect(() => {
     function updateSize() {
-      setWindowWidth(window.innerWidth);
       setContainerWidth(containerEl.current.offsetWidth);
     }
     window.addEventListener('resize', updateSize);
@@ -93,148 +90,62 @@ const GanttChart = ({ ganttChartInfo }) => {
     return () => window.removeEventListener('resize', updateSize);
   }, []);
 
-  let itemWidth = 0;
-  if (windowWidth <= 600) {
-    itemWidth = 32;
-  } else {
-    itemWidth = 40;
-  }
-
-  const timeContainerWidth = time.length * itemWidth - (time.length - 1);
-
-  let maxTimeItemCount = ~~(containerWidth / itemWidth);
-
-  let numberOfLines = 0;
-  let acc = 0;
-  while (true) {
-    if (containerWidth === null) {
-      break;
+  useEffect(() => {
+    if (currentAnimatingIndex < ganttChartInfo.length) {
+      const timer = setTimeout(() => {
+        setCurrentAnimatingIndex(currentAnimatingIndex + 1);
+      }, ganttChartInfo[currentAnimatingIndex].duration * 100); // Adjust this multiplier to control overall animation speed
+      return () => clearTimeout(timer);
     }
-    acc += maxTimeItemCount - 1;
-    numberOfLines++;
-    if (acc >= time.length) {
-      acc -= maxTimeItemCount - 1;
-      break;
-    }
-  }
+  }, [currentAnimatingIndex, ganttChartInfo]);
 
-  // If index of last time item equal to acc
-  let lastLineItemCount;
-  if (time.length - 1 === acc) {
-    lastLineItemCount = 0;
-    numberOfLines--;
-  } else {
-    lastLineItemCount = time.length - acc;
-  }
+  const totalDuration = ganttChartInfo.reduce((sum, info) => sum + info.duration, 0);
+  const scale = (containerWidth - 1) / totalDuration;
 
-  let timeCounter = 0;
-  let jobCounter = 0;
-
+  let accumulatedWidth = 0;
   return (
     <Container ref={containerEl}>
-      <Title>Gantt Chart</Title>
-      {containerWidth !== null && containerWidth <= timeContainerWidth && (
-        <>
-          {Array.from({ length: numberOfLines }).map((_, ind) => {
-            if (ind === numberOfLines - 1 && lastLineItemCount !== 0) {
-              return (
-                <MultilineContainer key={`multiline-container-${ind}`}>
-                  <JobContainer>
-                    {Array.from({
-                      length: lastLineItemCount - 1,
-                    }).map((_, i) => (
-                      <Job key={`gc-job-lastline${i}`} className="flex-center">
-                        {job[jobCounter + 1 + i]}
-                      </Job>
-                    ))}
-                  </JobContainer>
-                  <TimeContainer>
-                    {Array.from({
-                      length: lastLineItemCount,
-                    }).map((_, i) => (
-                      <Time
-                        key={`gc-time-lastline${i}`}
-                        className="flex-center"
-                      >
-                        {time[timeCounter + i]}
-                      </Time>
-                    ))}
-                  </TimeContainer>
-                </MultilineContainer>
-              );
-            } else if (ind == 0) {
-              timeCounter += maxTimeItemCount - 1;
-              jobCounter += timeCounter - 1;
-              return (
-                <MultilineContainer key={`multiline-container-${ind}`}>
-                  <JobContainer>
-                    {Array.from({ length: jobCounter + 1 }).map((_, i) => (
-                      <Job key={`gc-job-firstline${i}`} className="flex-center">
-                        {job[i]}
-                      </Job>
-                    ))}
-                  </JobContainer>
-                  <TimeContainer>
-                    {Array.from({ length: timeCounter + ind + 1 }).map(
-                      (_, i) => (
-                        <Time
-                          key={`gc-time-firstline${i}`}
-                          className="flex-center"
-                        >
-                          {time[i]}
-                        </Time>
-                      )
-                    )}
-                  </TimeContainer>
-                </MultilineContainer>
-              );
-            } else {
-              let prevCounter = timeCounter;
-              timeCounter += maxTimeItemCount - 1;
-              let prevJobCounter = jobCounter;
-              jobCounter += maxTimeItemCount - 1;
-              return (
-                <MultilineContainer key={`multiline-container-${ind}`}>
-                  <JobContainer>
-                    {Array.from({ length: maxTimeItemCount - 1 }).map(
-                      (_, i) => (
-                        <Job key={`gc-job-${i}-${ind}`} className="flex-center">
-                          {job[prevJobCounter + i + 1]}
-                        </Job>
-                      )
-                    )}
-                  </JobContainer>
-                  <TimeContainer>
-                    {Array.from({ length: maxTimeItemCount }).map((_, i) => (
-                      <Time key={`gc-time-${i}-${ind}`} className="flex-center">
-                        {time[prevCounter + i]}
-                      </Time>
-                    ))}
-                  </TimeContainer>
-                </MultilineContainer>
-              );
-            }
-          })}
-        </>
-      )}
-      {containerWidth !== null && containerWidth > timeContainerWidth && (
-        <>
-          <JobContainer>
-            {job.map((job, index) => (
-              <Job key={`gc-job-${index}`} className="flex-center">
-                {job}
-              </Job>
-            ))}
-          </JobContainer>
-          <TimeContainer>
-            {time.map((time, index) => (
-              <Time key={`gc-time-${index}`} className="flex-center">
-                {time}
-              </Time>
-            ))}
-          </TimeContainer>
-        </>
-      )}
+      <ChartContainer>
+        {ganttChartInfo.map((info, index) => {
+          const width = Math.max(info.duration * scale, 30);
+          const leftPosition = accumulatedWidth;
+          accumulatedWidth += width;
+          return (
+            <BarContainer key={index} style={{ width: `${width}px` }}>
+              {index <= currentAnimatingIndex && (
+                <>
+                  <AnimatedBar
+                    style={{
+                      backgroundColor: info.job === 'Idle' ? 'lightgray' : getColor(info.job),
+                      animationDuration: `${info.duration * 0.05}s`, // Adjust this multiplier to control individual animation speed
+                    }}
+                  >
+                    {info.job}
+                  </AnimatedBar>
+                  <AnimatedTimeLabel 
+                    style={{ 
+                      left: `${leftPosition}px`,
+                      animationDelay: `${info.duration * 0.05}s` // Sync with bar animation
+                    }}
+                  >
+                    {info.start}
+                  </AnimatedTimeLabel>
+                  {index === ganttChartInfo.length - 1 && (
+                    <AnimatedTimeLabel 
+                      style={{ 
+                        left: `${accumulatedWidth}px`,
+                        animationDelay: `${info.duration * 0.05}s` // Sync with bar animation
+                      }}
+                    >
+                      {info.stop}
+                    </AnimatedTimeLabel>
+                  )}
+                </>
+              )}
+            </BarContainer>
+          );
+        })}
+      </ChartContainer>
     </Container>
   );
 };
