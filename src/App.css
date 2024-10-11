@@ -1,10 +1,31 @@
-.parent-container{
+* {
+    box-sizing: border-box;
+  }
+  
 
+body {
+    background-color: rgb(233, 239, 236);
 }
-.component-container{
+
+.parent-container {
     display: flex;
-    background-color: rgb(255, 255, 255);
-    gap: 10px;
-    width: fit-content;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    width: 100%;
+    padding: 10px;
+    max-width: none; /* Remove max-width constraint */
 }
 
+.component-container {
+    display: flex;
+    flex-direction: row; /* Keep side-by-side layout */
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color: rgb(196, 218, 210);
+    gap: 20px;
+    width: 100%;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
