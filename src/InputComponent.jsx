@@ -59,33 +59,35 @@ function InputComponent(props) {
     };
 
     return (
-        <div className="form-container" onSubmit={handleSubmit}>
-            <h1>Round Robin Scheduling Algorithm</h1>
-            <h2>Arrival Time</h2>
-            <input
-                onChange={(e) => setArrivalTime(e.target.value)}
-                type="text"
-                id="arrival-time"
-                placeholder='Example: 1 2 3 4 5'
-                ref={arrivalTimeRef}
-            />
-            <h2>Burst Time</h2>
-            <input
-                onChange={(e) => setBurstTime(e.target.value)}
-                type="text"
-                id="burst-time"
-                placeholder='Example: 2 4 6 8 10'
-                ref={burstTimeRef}
-            />
-            <h2>Time Quantum</h2>
-            <input
-                onChange={(e) => setTimeQuantum(e.target.value)}
-                type="number"
-                id="time-quantum"
-                name="timeQuantum"
-                placeholder='Example: 3'
-            />
-            <button onClick={handleSubmit}>Solve</button>
+        <div className="input-container" onSubmit={handleSubmit}>
+            <div className="design">
+                <h1>Round Robin Scheduling Algorithm</h1>
+                <h2>Arrival Time</h2>
+                <input
+                    onChange={(e) => setArrivalTime(e.target.value)}
+                    type="text"
+                    id="arrival-time"
+                    placeholder='Example: 1 2 3 4 5'
+                    ref={arrivalTimeRef}
+                />
+                <h2>Burst Time</h2>
+                <input
+                    onChange={(e) => setBurstTime(e.target.value)}
+                    type="text"
+                    id="burst-time"
+                    placeholder='Example: 2 4 6 8 10'
+                    ref={burstTimeRef}
+                />
+                <h2>Time Quantum</h2>
+                <input
+                    onChange={(e) => setTimeQuantum(e.target.value)}
+                    type="number"
+                    id="time-quantum"
+                    name="timeQuantum"
+                    placeholder='Example: 3'
+                />
+                <button onClick={handleSubmit}>Solve</button>
+            </div>
         </div>
     );
 }
