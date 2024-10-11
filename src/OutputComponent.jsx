@@ -16,7 +16,9 @@ const OutputComponent = ({ solvedProcessesInfo, ganttChartInfo, arrivalTime, bur
     return(
       <div className='output-container'>
       <h1>Output</h1>
-      <GanttChart ganttChartInfo={ganttChartInfo} /> {/* Pass data to GanttChart */}
+        <div className="gantt-chart-wrapper">
+          <GanttChart ganttChartInfo={ganttChartInfo} /> {/* Pass data to GanttChart */}
+        </div>
       <Table solvedProcessesInfo={solvedProcessesInfo} /> {/* Pass data to TableComponent */}
     </div>
     )
