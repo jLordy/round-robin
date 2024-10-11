@@ -6,19 +6,15 @@ const TableWrapper = styled.div`
   overflow: auto;
   max-width: 100%;
   margin: 0px auto 20px auto;
-  background:
-    linear-gradient(to right, white 30%, rgba(255,255,255,0)),
-    linear-gradient(to right, rgba(255,255,255,0), white 70%) 0 100%,
-    radial-gradient(farthest-side at 0% 50%, rgba(0,0,0,.2), rgba(0,0,0,0)),
-    radial-gradient(farthest-side at 100% 50%, rgba(0,0,0,.2), rgba(0,0,0,0)) 0 100%;
-  background-repeat: no-repeat;
-  background-color: white;
+  font-family: Helvetica;
+  
   background-size: 40px 100%, 40px 100%, 14px 100%, 14px 100%;
   background-position: 0 0, 100%, 0 0, 100%;
   background-attachment: local, local, scroll, scroll;
 `;
 
 const StyledTable = styled.table`
+  font-family: Helvetica;
   width: 100%;
   border-collapse: collapse;
   border-radius: 10px;
@@ -26,28 +22,28 @@ const StyledTable = styled.table`
 
 
   tr {
+    font-family: Helvetica;
     height: 40px;
     line-height: 0;
   }
 
   th,
   td {
+    font-family: Helvetica;
     text-align: left;
     padding: 15px;
     border: 1px solid #e1e1e1;
     line-height: 16.1px;
-    color: black;
   }
 `;
 
 const HeaderCell = styled.th`
+  font-family: Helvetica;
   font-size: 1rem;
-
-  font-weight: 500;
+  font-weight: 600;
   height: 40px;
   white-space: nowrap;
-  color: #6d7187;
-  background-color: #f9f9fb;
+  color: rgb(233, 239, 236);
 `;
 
 const precisionRound = (number, precision) => {
@@ -76,7 +72,7 @@ const Table = ({ solvedProcessesInfo}) => {
     <StyledTable>
       <thead>
         <tr>
-          <HeaderCell>Job</HeaderCell>
+          <HeaderCell>Process</HeaderCell>
           <HeaderCell>Arrival Time</HeaderCell>
           <HeaderCell>Burst Time</HeaderCell>
           <HeaderCell>Finish Time</HeaderCell>
