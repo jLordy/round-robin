@@ -1,15 +1,89 @@
 .output-container {
-    width: fit-content;
-    margin: 0 auto;
-    font-size: 14px; /* Reduce the font size */
-    background-color: rgb(255, 255, 255);
-    padding: 24px;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    color: black;
-    margin-right: 20px;
-  }
+  flex: 1;
+  flex-grow: 1;
+  font-size: 14px;
+  background-color: rgb(233, 239, 236);
+  padding: 10px 10px 10px 24px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  color: rgb(22, 66, 60);
+  width: 100%;
+  max-width: 1200px;
+}
+
+.output-container h1, .output-container h2 {
+  color: rgb(22, 66, 60);
+}
+
+
+
+.gantt-chart-wrapper {
+  width: 100%;
+  padding: 10px 10px 10px 10px;
+}
+
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 20px;
+  background-color: rgb(233, 239, 236); /* Lightest color for table background */
+  border: 2px solid rgb(22, 66, 60); /* Darkest color for table border */
+  border-radius: 8px; /* Optional: if you want rounded corners */
+  overflow: hidden; /* Ensures the border-radius is applied correctly */
+}
+
+th, td {
+  padding: 10px;
+  border: 1px solid rgb(22, 66, 60); /* Dark border for cells */
+}
+
+tr:nth-child(even) {
+  background-color: rgb(233, 239, 236); /* Lightest color for even rows */
+}
+
+tr:nth-child(odd) {
+  background-color: rgb(196, 218, 210); /* Light green for odd rows */
+}
+
+th {
+  background-color: rgb(22, 66, 60); /* Darkest color for header background */
+  color: rgb(233, 239, 236); /* Lightest color for header text */
+  padding: 10px;
+  text-align: left;
+  border-bottom: 2px solid rgb(22, 66, 60); /* Darkest color for bottom border of header */
+  font-weight: bold;
+}
+
+td {
+  background-color: rgb(196, 218, 210); /* Light color for cell background */
+  color: rgb(22, 66, 60); /* Darkest color for cell text */
+  padding: 8px;
+  border-bottom: 1px solid rgb(22, 66, 60); /* Darkest color for cell bottom border */
+  border-right: 1px solid rgb(22, 66, 60); /* Darkest color for cell right border */
+}
+
+td:last-child {
+  border-right: none; /* Remove right border from last cell in each row */
+}
+
+tr:last-child td {
+  border-bottom: none; /* Remove bottom border from cells in the last row */
+}
+
+/* Alternating row colors for better readability */
+tr:nth-child(even) td {
+  background-color: rgb(233, 239, 236); /* Lightest color for even rows */
+}
+
+/* Hover effect for rows */
+tr:hover td {
+  background-color: rgb(106, 156, 137); /* Medium color for hover */
+  color: rgb(233, 239, 236); /* Lightest color for text on hover */
+}
+
   p{
     color: black;
   }
