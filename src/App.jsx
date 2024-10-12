@@ -28,11 +28,13 @@ function App() {
     // Set results in state
     setSolvedProcessesInfo(newSolvedProcessesInfo); // Store solved processes
     setGanttChartInfo(newGanttChartInfo); // Store Gantt chart info
+
+    // Dispatch custom event to force recalculation
+    window.dispatchEvent(new Event('recalculateGanttChart'));
   };
 
   return (
     <div className="parent-container">
-    
       <div className="component-container">
         <InputComponent 
           setArrivalTime={setArrivalTime}
