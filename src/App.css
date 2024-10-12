@@ -9,23 +9,23 @@ body {
 
 .parent-container {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: flex-start;
     min-height: 100vh;
     width: 100%;
     padding: 10px;
-    max-width: none; /* Remove max-width constraint */
-}
-
-.component-container {
+    overflow-x: auto;
+  }
+  
+  .component-container {
     display: flex;
-    flex-direction: row; /* Keep side-by-side layout */
+    flex-direction: row;
     justify-content: flex-start;
     align-items: flex-start;
     background-color: rgb(196, 218, 210);
     gap: 20px;
-    width: 100%;
+    min-width: 100%;
     border-radius: 12px;
     padding: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
+  }
