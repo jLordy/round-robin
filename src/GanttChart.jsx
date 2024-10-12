@@ -2,7 +2,7 @@
 import React, { useLayoutEffect, useRef, useState, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 
-const paddingFactor = 1.2; // Increase this value to add more space
+const paddingFactor = 1.5; // Increase this value to add more space
 
 const Container = styled.div`
   display: flex;
@@ -39,7 +39,9 @@ const TimeLabel = styled.div`
   position: absolute;
   bottom: -25px;
   transform: translateX(-50%);
+  white-space: nowrap;
 `;
+
 
 
 const growAnimation = keyframes`
@@ -87,20 +89,24 @@ const GanttChart = ({ ganttChartInfo }) => {
   const containerEl = useRef(null);
 
   function updateSize() {
-    const minWidth = 800; // Minimum desired width for the chart
     const availableWidth = containerEl.current.offsetWidth;
     const totalDuration = ganttChartInfo.reduce((sum, info) => sum + info.duration, 0);
-    const scale = Math.max((availableWidth / totalDuration) * paddingFactor, 30); // Increased minimum width per unit
+    const scale = Math.max((availableWidth / totalDuration) * paddingFactor, 40);
     const requiredWidth = totalDuration * scale;
     
-    if (requiredWidth > availableWidth) {
-      document.body.style.minWidth = `${requiredWidth}px`;
-    } else {
-      document.body.style.minWidth = 'auto';
-    }
-    
+    // Calculate the new width, but don't exceed the available width if not necessary
+    const newWidth = Math.min(Math.max(availableWidth, requiredWidth), availableWidth);
+
+    // Reset the container width to the available width or the required width, whichever is larger
     setContainerWidth(Math.max(availableWidth, requiredWidth));
+  
+    // Reset the parent container's width
+    const parentContainer = containerEl.current.closest('.parent-container');
+    if (parentContainer) {
+      parentContainer.style.width = `${Math.max(availableWidth, requiredWidth)}px`;
+    }
   }
+
   
 
   useLayoutEffect(() => {
@@ -108,6 +114,10 @@ const GanttChart = ({ ganttChartInfo }) => {
     updateSize();
     return () => window.removeEventListener('resize', updateSize);
   }, []);
+
+  useEffect(() => {
+    updateSize();
+  }, [ganttChartInfo]);
 
   useEffect(() => {
     if (currentAnimatingIndex < ganttChartInfo.length) {
