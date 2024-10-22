@@ -1,94 +1,113 @@
 .output-container {
-  flex: 1;
-  flex-grow: 1;
+  flex-grow: 1; /* Allow it to grow */
   font-size: 14px;
   background-color: rgb(233, 239, 236);
-  padding: 10px 10px 10px 24px;
+  padding: 10px;
   border-radius: 8px;
   display: flex;
-  flex-direction: column;
+  flex-direction: column; /* Stack items vertically */
   color: rgb(22, 66, 60);
   width: 100%;
-  max-width: 1200px;
+  max-width: 1200px; /* Limit max width */
+  margin: 0 auto; /* Center the container */
+  overflow-x: auto;
 }
 
 .output-container h1, .output-container h2 {
   color: rgb(22, 66, 60);
+  text-align: left; /* Keep heading left-aligned */
 }
-
-
 
 .gantt-chart-wrapper {
   width: 100%;
-  padding: 10px 10px 10px 10px;
+  padding: 10px;
 }
-
 
 table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
   margin-top: 20px;
-  background-color: rgb(233, 239, 236); /* Lightest color for table background */
-  border: 2px solid rgb(22, 66, 60); /* Darkest color for table border */
-  border-radius: 8px; /* Optional: if you want rounded corners */
-  overflow: hidden; /* Ensures the border-radius is applied correctly */
+  background-color: rgb(233, 239, 236);
+  border: 2px solid rgb(22, 66, 60);
+  border-radius: 8px;
+  overflow: auto;
 }
 
 th, td {
   padding: 10px;
-  border: 1px solid rgb(22, 66, 60); /* Dark border for cells */
+  border: 1px solid rgb(22, 66, 60);
+  text-align: left;
+  font-size: 14px; /* Keep text size readable */
 }
 
 tr:nth-child(even) {
-  background-color: rgb(233, 239, 236); /* Lightest color for even rows */
+  background-color: rgb(233, 239, 236); 
 }
 
 tr:nth-child(odd) {
-  background-color: rgb(196, 218, 210); /* Light green for odd rows */
+  background-color: rgb(196, 218, 210); 
 }
 
 th {
-  background-color: rgb(22, 66, 60); /* Darkest color for header background */
-  color: rgb(233, 239, 236); /* Lightest color for header text */
+  background-color: rgb(22, 66, 60);
+  color: rgb(233, 239, 236);
   padding: 10px;
   text-align: left;
-  border-bottom: 2px solid rgb(22, 66, 60); /* Darkest color for bottom border of header */
+  border-bottom: 2px solid rgb(22, 66, 60);
   font-weight: bold;
 }
 
 td {
-  background-color: rgb(196, 218, 210); /* Light color for cell background */
-  color: rgb(22, 66, 60); /* Darkest color for cell text */
+  background-color: rgb(196, 218, 210);
+  color: rgb(22, 66, 60);
   padding: 8px;
-  border-bottom: 1px solid rgb(22, 66, 60); /* Darkest color for cell bottom border */
-  border-right: 1px solid rgb(22, 66, 60); /* Darkest color for cell right border */
+  border-bottom: 1px solid rgb(22, 66, 60);
+  border-right: 1px solid rgb(22, 66, 60);
 }
 
 td:last-child {
-  border-right: none; /* Remove right border from last cell in each row */
+  border-right: none;
 }
 
 tr:last-child td {
-  border-bottom: none; /* Remove bottom border from cells in the last row */
+  border-bottom: none;
 }
 
-/* Alternating row colors for better readability */
 tr:nth-child(even) td {
-  background-color: rgb(233, 239, 236); /* Lightest color for even rows */
+  background-color: rgb(233, 239, 236); 
 }
 
-/* Hover effect for rows */
 tr:hover td {
-  background-color: rgb(106, 156, 137); /* Medium color for hover */
-  color: rgb(233, 239, 236); /* Lightest color for text on hover */
+  background-color: rgb(106, 156, 137);
+  color: rgb(233, 239, 236); 
 }
 
-  p{
-    color: black;
+p {
+  color: black;
+}
+
+h1 {
+  text-align: left;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .output-container {
+    padding: 5px; /* Reduce padding on smaller screens */
+    min-width: 50px;
   }
 
-  h1{
-    text-align: left;
+  table, th, td {
+    font-size: 12px; /* Slightly smaller font size for mobile */
+    padding: 6px; /* Less padding to fit narrow screens */
   }
-  
+
+  th, td {
+    text-align: center; /* Center text for smaller screens */
+  }
+
+  .gantt-chart-wrapper {
+    padding: 15px;
+  }
+}

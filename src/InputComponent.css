@@ -1,29 +1,35 @@
-body{
-    display: flex;
-
-}
-.input-container {
-  flex: 0 0 300px;
+body {
   display: flex;
-  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  background-color: rgb(233, 239, 236); /* Background color */
+}
+
+.input-container {
+  flex: 0 0 100%; /* Full width on small screens */
+  max-width: 300px; /* Limit max width */
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  justify-content: center;
+  align-items: center;
   padding: 20px;
   background-color: rgb(22, 66, 60);
   border-radius: 8px;
   color: rgb(233, 239, 236);
-  width: 300px;
 }
 
 .input-container h1 {
-  font-size: 1.8rem; /* Adjust this value as needed */
-  margin-bottom: 15px;
-  color: rgb(233, 239, 236); /* This keeps the light text color */
+  font-size: 1.5rem; /* Adjusted for smaller screens */
+  margin-bottom: 10px;
+  color: rgb(233, 239, 236);
 }
 
 .input-container h2 {
   font-size: 1.0rem;
   color: rgb(233, 239, 236);
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 .input-container input {
@@ -33,72 +39,96 @@ body{
   padding: 6px;
   margin-bottom: 10px;
   border-radius: 3px;
+  font-size: 14px; /* Adjusted font size */
 }
 
 .input-container button {
   background-color: rgb(196, 218, 210);
-  color: rgb(233, 239, 236);
+  color: rgb(22, 66, 60);
   border: none;
   padding: 10px 15px;
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s;
-  color: black;
+  font-size: 14px; /* Adjusted font size */
 }
 
 .input-container button:hover {
-  background-color: rgb(33, 99, 90);
+  background-color: rgb(226, 226, 226);
 }
 
-
-
 .form-container {
-    width: 300px; /* Reduce the width of the form */
-    margin: 0 auto;
-    font-size: 14px; /* Reduce the font size */
-    background-color: rgb(22, 66, 60);
-    box-shadow: 5px;
-    padding: 24px;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    margin: 20px;
-    height: fit-content;
-  }
-  
-  h1 {
-    text-align: center;
-    font-size: 18px; /* Smaller font for the heading */
-    margin-bottom: 10px; /* Reduce margin for heading */
-    color: rgb(255, 255, 255);
-  }
-  
-  h2 {
-    font-size: 14px; /* Smaller font for subheadings */
-    margin: 5px 0; /* Reduce margin for subheadings */
-    color: rgba(255, 255, 255, 0.906);
-  }
-  
-  input[type="text"], input[type="number"] {
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+  font-size: 14px;
+  background-color: rgb(22, 66, 60);
+  padding: 24px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+}
+
+h1 {
+  text-align: center;
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: rgb(255, 255, 255);
+}
+
+h2 {
+  font-size: 14px;
+  margin: 5px 0;
+  color: rgba(255, 255, 255, 0.906);
+}
+
+input[type="text"], input[type="number"] {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #000000;
+  border-radius: 4px;
+  font-size: 12px;
+  background-color: #e9f8fd;
+  color: rgb(0, 0, 0);
+}
+
+::placeholder {
+  color: rgba(0, 0, 0, 0.735);
+}
+
+input[type="text"], input[type="number"]:focus {
+  outline: none;
+  border-color: #000000;
+}
+
+button {
+  color: black;
+  background-color: rgb(136, 187, 255);
+  align-self: flex-end;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 600px) {
+  .input-container, .form-container {
     width: 100%;
-    padding: 5px; /* Smaller padding inside input */
-    margin-bottom: 10px; /* Reduce margin between inputs */
-    border: 1px solid #000000;
-    border-radius: 4px;
-    font-size: 12px; /* Smaller text inside input */
-    background-color: #e9f8fd;
-    color: rgb(0, 0, 0);
+    padding: 10px;
   }
-  ::placeholder{
-   color: rgba(0, 0, 0, 0.735);
+
+  .input-container h1, .form-container h1 {
+    font-size: 1.2rem;
   }
-  
-  input[type="text"], input[type="number"]:focus {
-    outline: none;
-    border-color: #000000; /* Change border color on focus */
+
+  .input-container h2, .form-container h2 {
+    font-size: 0.9rem;
   }
-  button{
-    color: black;
-    background-color: rgb(136, 187, 255) ;
-    align-self: flex-end;
+
+  .input-container input, .form-container input {
+    font-size: 12px;
   }
+
+  .input-container button, .form-container button {
+    font-size: 12px;
+  }
+}

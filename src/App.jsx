@@ -4,6 +4,8 @@ import OutputComponent from "./OutputComponent.jsx";
 import './App.css';
 import rr from './rr'; // Ensure rr is correctly imported
 
+
+
 function App() {
   const [arrivalTime, setArrivalTime] = useState([]);
   const [burstTime, setBurstTime] = useState([]);
@@ -34,7 +36,7 @@ function App() {
   };
 
   return (
-    <div className="parent-container">
+    
       <div className="component-container">
         <InputComponent 
           setArrivalTime={setArrivalTime}
@@ -49,7 +51,6 @@ function App() {
           burstTime={burstTime}      // Pass burstTime to OutputComponent
         />
       </div>
-    </div>
   );
 }
 

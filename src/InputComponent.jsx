@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2';
 import './InputComponent.css';
 import { useState, useRef, useEffect } from 'react';
 
@@ -25,25 +26,43 @@ function InputComponent(props) {
 
         // Input validation
         if (burstTimeArr.includes(0)) {
-            console.log('0 burst time is invalid');
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "0 burst time is not allowed",
+              });;
             return;
         } else if (arrivalTimeArr.length !== burstTimeArr.length) {
-            console.log('Number of the arrival times and burst times do not match');
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "The number of arrival time and burst time does not match",
+              });;
             return;
-        } else if (
+        }else if (
             arrivalTimeArr.includes(NaN) ||
             burstTimeArr.includes(NaN) ||
             (isNaN(timeQuantumInt))
         ) {
-            console.log('Please enter only integers');
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Please complete the input values",
+              });;
+    
             return;
         } else if (
             arrivalTimeArr.some((t) => t < 0) ||
             burstTimeArr.some((t) => t < 0)
         ) {
-            console.log('Negative numbers are invalid');
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Negative numbers are invalid",
+              });;
+      
             return;
-        }
+        } 
 
         // Call the onInputSubmit function provided by App immediately after gathering data
         props.onInputSubmit(arrivalTimeArr, burstTimeArr, timeQuantumInt);
