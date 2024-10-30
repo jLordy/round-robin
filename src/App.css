@@ -1,38 +1,42 @@
-* {
-    box-sizing: border-box;
-}
-
 body {
-    background-color: rgb(233, 239, 236);
+    box-sizing: border-box;
+    margin: 0;
+    height: 100vh; /* Ensures the body takes full height */
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* Full height for centering */
-    margin: 0; /* Remove default margin */
+    justify-content: center; /* Center the wrapper horizontally */
+    align-items: center; /* Center the wrapper vertically */
+    background-color: white;
+    width: fit-content;
+    padding: 0 150px;
+
 }
 
 .component-container {
     display: flex;
     flex-direction: row; /* Default to row on larger screens */
-    justify-content: flex-start;
+    justify-content: flex-start; /* Align items as needed */
     align-items: flex-start;
     background-color: rgb(196, 218, 210);
     gap: 20px;
-    min-width: 100%;
     border-radius: 12px;
-    padding: 20px;
+    padding: 15px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    
+    width: max-content;
+    max-width: 1200px;
+    min-width: 300px;
 }
 
-
-@media (max-width: 600px) {
+@media (max-width: 500px) {
+    body{
+        padding: 0 150px;
+    }
     .component-container {
         flex-direction: column; /* Stack items vertically on small screens */
-        justify-content: center;
-        align-items: center;
-        padding: 20px;
-        gap: 10px;
-        overflow: scroll;
+        justify-content: center; /* Center items vertically */
+        align-items: center; /* Center items horizontally */
+        margin: 10px;
+        width: fit-content;
+        max-width: none; /* Remove max-width to allow full width */
+        box-shadow: none; /* Optional: Remove shadow for a cleaner look on small screens */
     }
 }

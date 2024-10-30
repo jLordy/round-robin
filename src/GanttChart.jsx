@@ -32,6 +32,7 @@ const Bar = styled.div`
   color: white;
   font-weight: bold;
   font-size: 14px;
+  flex: 1;
 `;
 
 const TimeLabel = styled.div`
@@ -106,8 +107,6 @@ const GanttChart = ({ ganttChartInfo }) => {
       parentContainer.style.width = `${Math.max(availableWidth, requiredWidth)}px`;
     }
   }
-
-  
 
   useLayoutEffect(() => {
     window.addEventListener('resize', updateSize);

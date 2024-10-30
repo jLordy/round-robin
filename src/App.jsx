@@ -36,7 +36,7 @@ function App() {
   };
 
   return (
-    
+    <div className="wrapper">
       <div className="component-container">
         <InputComponent 
           setArrivalTime={setArrivalTime}
@@ -51,6 +51,8 @@ function App() {
           burstTime={burstTime}      // Pass burstTime to OutputComponent
         />
       </div>
+    </div>
+     
   );
 }
 
