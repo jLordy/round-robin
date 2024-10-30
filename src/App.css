@@ -8,7 +8,6 @@ body {
     background-color: white;
     width: fit-content;
     padding: 0 150px;
-
 }
 
 .component-container {
@@ -29,6 +28,7 @@ body {
 @media (max-width: 500px) {
     body{
         padding: 0 150px;
+        height: 100vh;
     }
     .component-container {
         flex-direction: column; /* Stack items vertically on small screens */
@@ -36,6 +36,7 @@ body {
         align-items: center; /* Center items horizontally */
         margin: 10px;
         width: fit-content;
+        
         max-width: none; /* Remove max-width to allow full width */
         box-shadow: none; /* Optional: Remove shadow for a cleaner look on small screens */
     }
